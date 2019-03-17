@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Four template</title>
+</head>
+<body>
+    <!--注意空格-->
+    {% if name == "Python" %}
+        <h1>
+            {{name}}, 好久不见, 我很想你.
+        </h1>
+    {% elif name == "Java" %}
+        <h1>
+            {{name}}, 你是谁,我不认识你.
+        </h1>
+    {% else %}
+        <h1>
+            {{name}}, 嘤嘤嘤???
+        </h1>
+    {% endif %}
+</body>
+</html>
