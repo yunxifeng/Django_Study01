@@ -19,4 +19,8 @@ urlpatterns = [
     url(r'^four/$', v.four),
     url(r'^five/$', v.five_get),
     url(r'^five_post/$', v.five_post),
+    url(r'^request_meta/$', v.display_meta),
+    # 版本二中,不需要search_form,直接访问search
+    # url(r'^search_form$', v.search_form),
+    url(r'^search/$', v.search),
 ]

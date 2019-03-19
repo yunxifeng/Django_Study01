@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Search Results</title>
+</head>
+<body>
+    <p>You searched for: <strong>{{ query }}</strong></p>
+    {% if books %}
+    <!--pluralize模板过滤器,根据找到的图书数量输出正确的单复数-->
+        <p>Found{{ books|length }}book{{ books|pluralize }}.</p>
+        <ul>
+            {% for book in books %}
+            <li>{{ book.title }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books matched your search criteria.</p>
+    {% endif %}
+</body>
+</html>

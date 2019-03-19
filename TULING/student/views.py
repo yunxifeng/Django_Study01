@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 import datetime
+# 用于form简单案例
+from .models import Book
 # Create your views here.
 
 
@@ -69,3 +71,52 @@ def five_get(request):
     return render(request, r'five.html')
 def five_post(request):
     return HttpResponse("注册成功")
+
+
+# request.META
+def display_meta(request):
+    html = []
+    for k, v in request.META.items():
+        html.append("<tr><td>{0}</td><td>{1}</td></tr>".format(k, v))
+    return HttpResponse("<table>{0}</table>".format("\n".join(html)))
+
+
+# form处理示例
+# 版本一
+# def search_form(request):
+    # return render(request, r'search_form.html')
+# def search(request):
+#     if "q" in request.GET and request.GET["q"]: # 最好判断一下,不要相信用户输入的任何数据
+#         q = request.GET["q"]
+#         books = Book.objects.filter(title__icontains=q)
+#         ct = {
+#             "books": books,
+#             "query": q,
+#         }
+#         return render(request, r'search_results.html', context=ct)
+#     else:
+#         return HttpResponse("Please submit a search term.")
+
+# 版本二
+def search(request):
+    # error = False # 第二版
+    errors = []
+    if "q" in request.GET:
+        q = request.GET["q"]
+        if not q:
+            # error = True # 第二版
+            errors.append("Please enter a search term.")
+        elif len(q) > 20:
+            # error = True # 第二版
+            errors.append("Please enter at most 20 characters.")
+        else:
+            books = Book.objects.filter(title__icontains=q)
+            ct = {
+                "books": books,
+                "query": q,
+            }
+            return render(request, r'search_results.html', context=ct)
+    return render(request, r'search_form.html', {"errors": errors})
+
+# 第一个表单类-->Django自带的表单库django.forms
+
