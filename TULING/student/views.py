@@ -1,8 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 import datetime
 # 用于form简单案例
 from .models import Book
+# 导入forms类
+from .forms import ContactForm
+from django.core.mail import send_mail
 # Create your views here.
 
 
@@ -118,5 +121,25 @@ def search(request):
             return render(request, r'search_results.html', context=ct)
     return render(request, r'search_form.html', {"errors": errors})
 
-# 第一个表单类-->Django自带的表单库django.forms
 
+# 第一个表单类-->Django自带的表单库django.forms
+def contact(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            send_mail = (
+                cd["subject"],
+                cd["message"],
+                cd.get("email", "noreply@example.com"),
+                ["siteowner@example.com"],
+            )
+            return HttpResponseRedirect(r'/contact/thanks/')
+    else:
+        form = ContactForm(
+            initial={"subject": "I love your site !"} # 设定表单中特定字段的初始值[该初始值不受任何约束]
+        )
+    return render(request, "contact_form.html", context={"form": form})
+
+def contact_thanks(request):
+    return HttpResponse("恭喜您,提交成功")

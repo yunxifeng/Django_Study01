@@ -13,3 +13,23 @@ POST方式:"获取数据"+"操作数据(修改,发送数据或着说显示数据
 # django.forms-->Django自带的表单库
 主要用法:为要处理的每个HTML表单定义一个Form类
 规范: 将Form放在单独的form.py文件中
+- forms类的功能:
+1.显示为HTML
+>>> from student.forms import ContactForm
+>>> f = ContactForm()
+>>> print(f) # 其他输出格式: f.as_ul(), f.as.p(), f.as_table
+<tr><th><label for="id_subject">Subject:</label></th><td><input id="id_subject" name="subject" type="text" /></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><input id="id_email" name="email" type="email" /></td></tr>
+<tr><th><label for="id_message">Message:</label></th><td><input id="id_message" name="message" type="text" /></td></tr>
+>>>f['字段名'] 显示单个字段的HTML
+2.验证数据
+>>> f = ContactForm({"subject":"hello", "email": "xiaosuiyuan@qq.com", "message":"Nice!"}) # 关联数据
+>>> f.is_bound # 验证表单是否受约束
+True
+>>> f.is_valid() # 验证表单数据是否有效,此案例中因设置email为选填,所以不输入email也为True,但是其他字段一旦空缺,则为False,即此表单对象无效
+True
+>>>f["字段名"].errors # 查看某字段的错误消息,dict类型
+>>>f.cleaned_data # 有效表单的cleaned_data属性,值是dict类型,存放着"清理过的"已提交的数据,"清理",即将值转换为合适的Python类型
+
+- 在views中使用forms对象
+

@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from student import views as v
 
+# url() 实例列表: 负责定义 URL 与处理URL 的代码之间的映射
 urlpatterns = [
     # Examples:
     # url(r'^$', 'TULING.views.home', name='home'),
@@ -23,4 +24,7 @@ urlpatterns = [
     # 版本二中,不需要search_form,直接访问search
     # url(r'^search_form$', v.search_form),
     url(r'^search/$', v.search),
+
+    url(r'^contact/$', v.contact),
+    url(r'^contact/thanks/$', v.contact_thanks),
 ]
